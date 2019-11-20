@@ -5,8 +5,8 @@
 #define V_SIZE 10
 
 struct argumento{
-    int *v;
-    int n;
+    int *v; // Puntero al elemento del vector donde debe empezar a sumar
+    int n; // Número de elementos que tiene que sumar
 };
 
 void* sumaParcial(void* arg){
@@ -26,6 +26,7 @@ int main(int argc, char** argv){
         printf("Cantidad de argumentos invalida\n");
         exit(EXIT_FAILURE);
     }
+
     int nthreads = atoi(argv[1]);
     if (nthreads < 2 || nthreads > 10){
         printf("Argumento invalido, debe estar entre 2 y 10\n");
@@ -35,17 +36,18 @@ int main(int argc, char** argv){
     int v[V_SIZE];
 
     for (int i = 0; i < V_SIZE; i++){
-        v[i] = i;
+        v[i] = i; // También pueden ser números aleatorios
     }
 
     int* sumaret;
     int sumatotal = 0;
     int rc;
 
-    long i;
     pthread_t threads[nthreads]; // Vector de threads
     struct argumento args[nthreads]; // Vector de argumentos, a cada hilo se le pasará uno distinto
     int comienzo = 0; // indicará al hilo por donde debe empezar a sumar
+
+    long i;
     for (i = 0; i < nthreads; i++){
 
         int n = V_SIZE / nthreads; // cantidad de elementos a sumar por el hilo
@@ -53,7 +55,7 @@ int main(int argc, char** argv){
             n = V_SIZE - comienzo;
         }
         args[i].n = n;
-        args[i].v = v + comienzo;
+        args[i].v = v + comienzo; // posición del vector por donde el hilo empezará a sumar
 
         rc = pthread_create(&threads[i], NULL, (void*)sumaParcial, (void*)&args[i]);
         if (rc){
