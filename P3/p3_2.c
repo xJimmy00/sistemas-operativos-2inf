@@ -1,10 +1,19 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <pthread.h>
 #define N 5
 
 bool eligiendo[N];
 int turno[N];
-
+int max(int *v){
+    int max = v[0];
+    for (int i = 0; i < N; i++){
+        if (turno[i] > max){
+            max = turno[i];
+        }
+    }
+    return max;
+}
 void Proceso(int i){
     extern bool eligiendo[N];
     extern int turno[N];
@@ -32,7 +41,11 @@ void Proceso(int i){
 
 int main(){
     for (int i = 0; i < N; i++){
-    eligiendo[i] = false;
-    turno[i] = 0;
-}
+        eligiendo[i] = false;
+        turno[i] = 0;
+    }
+
+    pthread_t hilos[N];
+    int v[N];
+    s
 }
