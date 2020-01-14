@@ -7,6 +7,7 @@ typedef struct params {
     char nombre[10];
     int t_ejec;  // Se introducen
     int t_lleg;
+    
     int t_com;   // Se calculan
     int t_fin;
     int t_ret;
@@ -14,8 +15,7 @@ typedef struct params {
 
 } parametros;
 
-void main()
-{
+void main(){
 
     int i;
 
@@ -47,13 +47,9 @@ void main()
 
     printf("\nProceso | t_comienzo | t_final | t_retorno | t_espera\n");
     printf("-------------------------------------------------------\n");
-    for (i = 0; i < NPROC; i++) {
-        if (i == 0) {
-            procesos[i].t_com = 0;
-        }
-        else{
-            procesos[i].t_com = procesos[i-1].t_fin;
-        }
+    for (i=0; i< NPROC; i++) {
+        if (i==0) procesos[i].t_com = 0;
+        else procesos[i].t_com = procesos[i-1].t_fin;
         procesos[i].t_fin = procesos[i].t_com + procesos[i].t_ejec;
         procesos[i].t_ret = procesos[i].t_fin - procesos[i].t_lleg;
         procesos[i].t_esp = procesos[i].t_ret - procesos[i].t_ejec;
